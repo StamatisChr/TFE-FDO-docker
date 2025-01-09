@@ -40,6 +40,8 @@ services:
       TFE_TLS_CERT_FILE: "/etc/ssl/private/terraform-enterprise/${cert}"
       TFE_TLS_KEY_FILE: "/etc/ssl/private/terraform-enterprise/${key}"
       TFE_TLS_CA_BUNDLE_FILE: "/etc/ssl/private/terraform-enterprise/${bundle}"
+      TFE_HTTP_PORT: ${tfe_http_port}
+      TFE_HTTPS_PORT: ${tfe_https_port}
     cap_add:
       - IPC_LOCK
     read_only: true
@@ -48,8 +50,8 @@ services:
       - /run
       - /var/log/terraform-enterprise
     ports:
-      - "${tfe_http_port}:80"
-      - "${tfe_https_port}:443"
+      - "80:${tfe_http_port}"
+      - "443:${tfe_https_port}"
     volumes:
       - type: bind
         source: /var/run/docker.sock

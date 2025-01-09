@@ -100,9 +100,11 @@ Example:
 Apply complete! Resources: 9 added, 0 changed, 0 destroyed.
 
 Outputs:
+...
+first_user_instructions=
+...
 
-
-
+```
 
 Wait about 7-8 minutes for Terraform Enterprise to initialize.
 

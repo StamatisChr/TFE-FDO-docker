@@ -31,20 +31,3 @@ output "first_user_instructions" {
   })
 
 }
-
-output "user_data_file" {
-  value = templatefile("./templates/user_data_script.tftpl", {
-    tfe_host_path_to_certificates = var.tfe_host_path_to_certificates
-    tfe_host_path_to_data         = var.tfe_host_path_to_data
-    tfe_license                   = var.tfe_license
-    tfe_version_image             = var.tfe_version_image
-    tfe_hostname                  = "${var.tfe_dns_record}-${random_pet.hostname_suffix.id}.${var.hosted_zone_name}"
-    tfe_http_port                 = var.tfe_http_port
-    tfe_https_port                = var.tfe_https_port
-    tfe_encryption_password       = var.tfe_encryption_password
-    cert                          = var.lets_encrypt_cert
-    bundle                        = var.lets_encrypt_cert
-    key                           = var.lets_encrypt_key
-  })
-
-}
