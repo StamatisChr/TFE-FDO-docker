@@ -11,6 +11,8 @@ apt-get install -y docker-ce=$VERSION_STRING docker-ce-cli=$VERSION_STRING conta
 
 usermod -a -G docker ubuntu
 
+ufw allow in on docker0
+
 mkdir -p ${tfe_host_path_to_certificates}
 mkdir -p ${tfe_host_path_to_data}
 
@@ -36,7 +38,7 @@ services:
       TFE_HOSTNAME: "${tfe_hostname}"
       TFE_ENCRYPTION_PASSWORD: "${tfe_encryption_password}"
       TFE_OPERATIONAL_MODE: "disk"
-      TFE_DISK_CACHE_VOLUME_NAME: $COMPOSE_PROJECT_NAME_terraform-enterprise-cache
+      TFE_DISK_CACHE_VOLUME_NAME: "\$${COMPOSE_PROJECT_NAME}_terraform-enterprise-cache"
       TFE_TLS_CERT_FILE: "/etc/ssl/private/terraform-enterprise/${cert}"
       TFE_TLS_KEY_FILE: "/etc/ssl/private/terraform-enterprise/${key}"
       TFE_TLS_CA_BUNDLE_FILE: "/etc/ssl/private/terraform-enterprise/${bundle}"
