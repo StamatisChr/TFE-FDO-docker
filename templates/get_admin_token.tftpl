@@ -1,7 +1,7 @@
 
 Check TFE health status:
 
-ssh ubuntu@${tfe_hostname} -t "sudo docker compose exec tfe tfe-health-check-status"
+ssh ubuntu@${tfe_hostname} -t "sudo docker exec terraform-enterprise-tfe-1 tfe-health-check-status"
 
 Get admin token:
 
