@@ -59,7 +59,7 @@ variable "tfe_host_path_to_certificates" {
 variable "tfe_host_path_to_data" {
   description = "The path on the host machine to store tfe data"
   type        = string
-  default     = "/etc/terraform-enterprise/data"
+  default     = "/var/lib/terraform-enterprise/data"
 }
 
 variable "lets_encrypt_cert" {
@@ -74,3 +74,4 @@ variable "lets_encrypt_key" {
   type        = string
   default     = "privkey1.pem"
 }
+
