@@ -1,20 +1,13 @@
 #cloud-config
 package_update: true
-
-
-
 groups:
  - docker
-
 system_info:
   default_user:
     groups: [ docker ] 
-
 packages:
   - ca-certificates
   - curl
-
-
 write_files:
   - path: /etc/terraform-enterprise/docker-compose.yml
     content: |
@@ -60,7 +53,6 @@ write_files:
       volumes:
         terraform-enterprise-cache:
     permissions: '0640'
-
   - path: /etc/systemd/system/terraform-enterprise.service
     content: |
       [Unit]
@@ -77,8 +69,6 @@ write_files:
       [Install]
       WantedBy=multi-user.target
     permissions: '0640'
-    
-
 runcmd:
 # Install Docker
   - install -m 0755 -d /etc/apt/keyrings
@@ -89,20 +79,15 @@ runcmd:
   - VERSION_STRING=5:26.1.4-1~ubuntu.24.04~noble
   - apt-get install -y docker-ce=$VERSION_STRING docker-ce-cli=$VERSION_STRING containerd.io docker-buildx-plugin docker-compose-plugin
   - usermod -a -G docker ubuntu
-
 # Configure UFW for Docker
   - ufw allow in on docker0
-  
 # Create necessary directories
   - mkdir -p ${tfe_host_path_to_certificates}
   - mkdir -p ${tfe_host_path_to_data}
-
 # Spawn Certbot container to generate TLS certificates
   - docker run --rm -p 80:80 -v ${tfe_host_path_to_certificates}:/etc/letsencrypt/archive/${tfe_hostname} certbot/certbot certonly --standalone --non-interactive --agree-tos --register-unsafely-without-email --preferred-challenges http -d ${tfe_hostname}
-
 # Log in to the Terraform Enterprise container image registry and pull the image
   - echo "${tfe_license}" | docker login --username terraform images.releases.hashicorp.com --password-stdin
   - docker pull images.releases.hashicorp.com/hashicorp/terraform-enterprise:${tfe_version_image}
-
 # Enable and start the Terraform Enterprise service
   - systemctl enable --now terraform-enterprise  
